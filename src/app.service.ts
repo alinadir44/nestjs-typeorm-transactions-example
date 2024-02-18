@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, EntityManager, Repository } from 'typeorm';
+import createExampleDto from './dto/createExampleEntity.dto';
 import Users from './example.entity';
 import User from './example.entity';
 
@@ -44,13 +45,20 @@ export class AppService {
     //   throw new HttpException(`no record found!`,HttpStatus.NOT_FOUND)
   }
 
-  async createUser(){
-    const user=this.userRepo.create()
-    await this.userRepo.manager.transaction(async (manager)=>{
+  async createUser(body?:createExampleDto){
+    if(body){
+      const user=this.userRepo.create({...body})
+      await this.userRepo.manager.transaction(async (manager)=>{
       await manager.save(user)
     })
     return user;
-    //await this.userRepo.save(user);
+    }
+  }
+
+  async createUserWithImage(filename:string){
+    const user=this.userRepo.create({isSet:true,prop:'ffds',prop2:'sdss',fileName:filename})
+    await this.userRepo.save(user);
+    return user;
   }
 
   async updateProp(id:number,prop:string){

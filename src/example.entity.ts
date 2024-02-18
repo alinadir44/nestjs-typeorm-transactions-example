@@ -11,8 +11,11 @@ class Users{
     @Column({nullable:true,default:false})
     public isSet:boolean;
 
-    @Column({nullable:true,unique:true})
+    @Column({nullable:true,unique:false})
     public prop2:string;
+
+    @Column({type:'varchar',nullable:true})
+    public fileName: string;
 }
 
 export default Users;

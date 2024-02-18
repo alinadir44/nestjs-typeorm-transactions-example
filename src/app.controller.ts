@@ -1,5 +1,7 @@
-import { Controller, Get,Post,Body, Param, Put, Patch } from '@nestjs/common';
+import { Controller, Get,Post,Body, Param, Put, Patch, UploadedFile } from '@nestjs/common';
 import { AppService } from './app.service';
+import createExampleDto from './dto/createExampleEntity.dto';
+import { ApiFile } from './utils/file-upload.decorator';
 
 @Controller()
 export class AppController {
@@ -20,9 +22,15 @@ export class AppController {
     return await this.appService.findUser(Number(id));
   }
   
-  @Post()
-  async create(){
-    return await this.appService.createUser();
+  @Post('with-dto')
+  async create(@Body() body:createExampleDto){
+    return await this.appService.createUser(body);
+  }
+
+  @Post(`with-image`)
+  @ApiFile('./public/verify')
+  async createWithImage(@UploadedFile() file){
+    return await this.appService.createUserWithImage(file.filename);
   }
 
   @Post('user/transaction/:prop2/')
