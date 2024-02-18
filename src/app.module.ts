@@ -6,7 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import User from './example.entity';
 import { join } from 'path';
 import {ServeStaticModule} from '@nestjs/serve-static'
-
+//updated with static-serve
 @Module({
   imports: [DatabaseModule,TypeOrmModule.forFeature([User]),ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'public'),
